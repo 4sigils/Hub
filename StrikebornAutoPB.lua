@@ -1,28 +1,11 @@
---========================================================
--- Strikeborn | Auto PB
--- Sections: Auto PB + Timing | Range | Debug
---========================================================
-
---------------------------------------------------------
--- CONFIG
---------------------------------------------------------
-local DATA_URL = "https://raw.githubusercontent.com/4sigils/deep/refs/heads/main/strikeanims.lua"
 local PB_KEY   = 0x46 -- F
 
-local IGNORE_URL = "https://raw.githubusercontent.com/4sigils/deep/refs/heads/main/ignoredanims.lua"
-
--- Used even if the repo can't be reached (move these into the repo file when you can)
-local LocalIgnored = {
-    "73744451365843", "117195886801350", "91803933898647",
-    "105074311921772", "140665037989542", "89977714060657",
-}
+local IGNORE_URL = "https://raw.githubusercontent.com/4sigils/Hub/refs/heads/main/StrikebornIgnoredAnims.lua"
+local DATA_URL = "https://raw.githubusercontent.com/4sigils/deep/refs/heads/main/strikeanims.lua"
 
 -- Anim Tracker
 local TRACKER_PATH = "Living/sigiltatted"
 
---------------------------------------------------------
--- OFFSETS / MEMORY HELPERS
---------------------------------------------------------
 local offsets = game:GetService("HttpService"):JSONDecode(game:HttpGet("https://offsets.imtheo.lol/Offsets.json")).Offsets
 local KnownOffsets = {
     AnimationId      = offsets.Misc.AnimationId,
@@ -161,37 +144,26 @@ local function GetPlayingAnims(enemy)
     return out
 end
 
--- Press a key without blocking. The release is handled by the main loop.
---
--- FIX: track whether each key is still logically "held down" from an
--- earlier PB. If two scheduled presses of the same key land in the same
--- tick (e.g. because the anim's elapsed time was already past the first
--- pb offset when we first detected it), the old code called keypress()
--- twice in a row with no keyrelease() in between - the game only sees a
--- key that's already down, so the second press was invisible. Now we
--- force a real release before re-pressing.
-local Releases = {}
-local KeyDown  = {}
-
-local function ReleaseKeyNow(vk)
-    pcall(function() keyrelease(vk) end)
-    KeyDown[vk] = nil
-    for i = #Releases, 1, -1 do
-        if Releases[i].vk == vk then table.remove(Releases, i) end
+-- Debug helper: prints animations playing on the first enemy
+local function ProbeAnimator()
+    for _, e in ipairs(GetEnemies()) do
+        print("[Strikeborn] Probing: " .. e.name)
+        for _, a in ipairs(GetPlayingAnims(e)) do
+            print("  " .. a.id .. " @ " .. string.format("%.3f", a.elapsed))
+        end
+        return
     end
+    print("[Strikeborn] No enemies (check PB Players / PB NPCs toggles)")
 end
 
+-- Press a key without blocking. The release is handled by the main loop.
+local Releases = {}
 local function PressKey(vk, holdSeconds)
-    if KeyDown[vk] then
-        ReleaseKeyNow(vk)
-    end
-
     local ok = pcall(function() keypress(vk) end)
     if not ok then
         print("[Strikeborn] keypress() failed - your executor may name it differently")
         return
     end
-    KeyDown[vk] = true
     Releases[#Releases + 1] = {at = os.clock() + (holdSeconds or 0.05), vk = vk}
 end
 
@@ -289,16 +261,16 @@ local IgnoredIds = {}
 
 local function LoadIgnored()
     IgnoredIds = {}
-    for _, id in ipairs(LocalIgnored) do IgnoredIds[id] = true end
 
     local src = HttpGet(IGNORE_URL)
     if not src then
         Log("Failed to download ignore list from " .. IGNORE_URL)
-    else
-        for line in src:gmatch("[^\r\n]+") do
-            line = line:gsub("%-%-.*$", "")
-            for id in line:gmatch("%d+") do IgnoredIds[id] = true end
-        end
+        return
+    end
+
+    for line in src:gmatch("[^\r\n]+") do
+        line = line:gsub("%-%-.*$", "")
+        for id in line:gmatch("%d+") do IgnoredIds[id] = true end
     end
 
     local n = 0
@@ -308,25 +280,15 @@ local function LoadIgnored()
 end
 
 --------------------------------------------------------
--- ANIMATION TRACKER
--- Tracks new animations on TRACKER_PATH and reports damage timing.
+-- ANIM TRACKER (Debug)
+-- Prints new animations on TRACKER_PATH and how long after the animation
+-- started you took damage.
 --------------------------------------------------------
 local TrackerActive = false
 local TrackerWarned = false
-local TrackerSeen = {}
-
+local TrackerSeen   = {}   -- [track address] = true while it is playing
 local TLastHealth, TLastHumanoid = nil, nil
 local TAnimTime, TAnimId = nil, nil
-
-local MultiDamageActive = false
-local MultiDamageId = nil
-local MultiDamageTotal = 0
-local MultiDamageRemaining = 0
-local MultiDamageLastTime = nil
-
-local MULTI_DAMAGE_IDS = {
-    ["7600224169"] = 3,
-}
 
 local function GetTargetFromPath(path)
     local current = workspace
@@ -339,11 +301,6 @@ end
 
 local function TrackerResetDamage()
     TAnimTime, TAnimId = nil, nil
-    MultiDamageActive = false
-    MultiDamageId = nil
-    MultiDamageTotal = 0
-    MultiDamageRemaining = 0
-    MultiDamageLastTime = nil
 end
 
 local function TrackerReset()
@@ -353,9 +310,9 @@ local function TrackerReset()
 end
 
 local function TrackerCheckDamage()
-    local lp = game.Players.LocalPlayer
+    local lp   = game.Players.LocalPlayer
     local char = lp and lp.Character
-    local hum = char and char:FindFirstChild("Humanoid")
+    local hum  = char and char:FindFirstChild("Humanoid")
 
     if not hum then
         TLastHealth, TLastHumanoid = nil, nil
@@ -363,6 +320,7 @@ local function TrackerCheckDamage()
         return
     end
 
+    -- new humanoid / respawn
     if hum ~= TLastHumanoid then
         TLastHumanoid, TLastHealth = hum, hum.Health
         TrackerResetDamage()
@@ -370,44 +328,13 @@ local function TrackerCheckDamage()
     end
 
     local hp = hum.Health
-
-    if TLastHealth ~= nil and hp < TLastHealth then
-        if MultiDamageActive then
-            local elapsed = os.clock() - MultiDamageLastTime
-            local currentHit = MultiDamageTotal - MultiDamageRemaining + 1
-
-            print(string.format(
-                "[DAMAGE] %s hit %d/%d -> %.4fs",
-                MultiDamageId,
-                currentHit,
-                MultiDamageTotal,
-                elapsed
-            ))
-
-            MultiDamageRemaining -= 1
-            MultiDamageLastTime = os.clock()
-
-            if MultiDamageRemaining <= 0 then
-                MultiDamageActive = false
-                MultiDamageId = nil
-                MultiDamageTotal = 0
-                MultiDamageRemaining = 0
-                MultiDamageLastTime = nil
-            end
-        elseif TAnimTime and TAnimId then
-            local elapsed = os.clock() - TAnimTime
-
-            print(string.format(
-                "[DAMAGE] %s -> %.4fs",
-                TAnimId,
-                elapsed
-            ))
-
-            TAnimTime = nil
-            TAnimId = nil
+    if TLastHealth and hp < TLastHealth then
+        local now = os.clock()
+        if TAnimTime and TAnimId then
+            Log(string.format("[DAMAGE] %s -> %.4fs", TAnimId, now - TAnimTime))
+            TAnimTime, TAnimId = nil, nil
         end
     end
-
     TLastHealth = hp
 end
 
@@ -415,19 +342,16 @@ local function TrackerStep()
     TrackerCheckDamage()
 
     local target = GetTargetFromPath(TRACKER_PATH)
-
     if not target then
         if not TrackerWarned then
             TrackerWarned = true
-            Log("Animation Tracker: target not found: " .. TRACKER_PATH)
+            Log("Anim Tracker: target not found: " .. TRACKER_PATH)
         end
         return
     end
-
     TrackerWarned = false
 
     local seenNow = {}
-
     for _, anim in ipairs(GetPlayingAnims({model = target})) do
         seenNow[anim.track] = true
 
@@ -435,54 +359,20 @@ local function TrackerStep()
             TrackerSeen[anim.track] = true
 
             if not IgnoredIds[anim.id] then
-                local cleanId = CleanId(anim.id)
+                -- start time = now minus how far into the animation it already is
+                local el = anim.elapsed
+                if type(el) ~= "number" or el ~= el or el < 0 or el > 10 then el = 0 end
+                local start = os.clock() - el
 
-                if cleanId then
-                    local hitCount = MULTI_DAMAGE_IDS[cleanId]
-
-                    if hitCount then
-                        MultiDamageActive = true
-                        MultiDamageId = cleanId
-                        MultiDamageTotal = hitCount
-                        MultiDamageRemaining = hitCount
-                        MultiDamageLastTime = os.clock()
-
-                        TAnimTime = nil
-                        TAnimId = nil
-
-                        print(string.format(
-                            "[%s] %s [MULTI: %d HITS]",
-                            TRACKER_PATH,
-                            cleanId,
-                            hitCount
-                        ))
-                    else
-                        local elapsed = anim.elapsed
-                        if type(elapsed) ~= "number"
-                            or elapsed ~= elapsed
-                            or elapsed < 0
-                            or elapsed > 10 then
-                            elapsed = 0
-                        end
-
-                        TAnimTime = os.clock() - elapsed
-                        TAnimId = cleanId
-
-                        print(string.format(
-                            "[%s] %s",
-                            TRACKER_PATH,
-                            cleanId
-                        ))
-                    end
-                end
+                TAnimTime, TAnimId = start, anim.id
+                Log(string.format("[%s] %s", TRACKER_PATH, anim.id))
             end
         end
     end
 
+    -- forget tracks that stopped so a replay is reported again
     for k in pairs(TrackerSeen) do
-        if not seenNow[k] then
-            TrackerSeen[k] = nil
-        end
+        if not seenNow[k] then TrackerSeen[k] = nil end
     end
 end
 
@@ -541,16 +431,7 @@ UI.AddTab("Strikeborn", function(tab)
     dbg:Button("Reload Ignored Anims", function() LoadIgnored() end)
     dbg:Button("Reset Tracker", function() TrackerReset() end)
     dbg:Button("Clear Seen List", function() SeenUnknown = {} end)
-    dbg:Button("Animation Tracker", function()
-        TrackerActive = not TrackerActive
-        TrackerReset()
-
-        if TrackerActive then
-            Log("Animation Tracker: ON")
-        else
-            Log("Animation Tracker: OFF")
-        end
-    end)
+    dbg:Button("Probe Animator", function() ProbeAnimator() end)
 end)
 
 --------------------------------------------------------
@@ -564,32 +445,22 @@ local function GetRange(info)
 end
 
 local function Schedule(startTime, info)
-    local delay  = UI.GetValue("sb_t_delay") or 0
-    local jitter = UI.GetValue("sb_t_jitter") or 0
-    local ping   = UI.GetValue("sb_t_ping") or 0
-    local hold   = (UI.GetValue("sb_t_hold") or 0) / 1000
+    local delay  = UI.GetValue("sb_t_delay")
+    local jitter = UI.GetValue("sb_t_jitter")
+    local ping   = UI.GetValue("sb_t_ping")
+    local hold   = UI.GetValue("sb_t_hold") / 1000
     local pbs    = info.pbs or {0}
 
     for _, t in ipairs(pbs) do
-        t = tonumber(t) or 0
-
         local ms = delay + math.random(0, jitter) - ping
         local at = startTime + t + (ms / 1000)
-
-        Queue[#Queue + 1] = {
-            at = at,
-            hold = hold
-        }
-
+        Queue[#Queue + 1] = {at = at, hold = hold}
         if UI.GetValue("sb_d_fires") then
-            Log(string.format(
-                "Scheduled pb @ %.3fs, fires in %.3fs",
-                t,
-                at - os.clock()
-            ))
+            Log(string.format("Scheduled pb @ %.3fs, fires in %.3fs", t, at - os.clock()))
         end
     end
 end
+
 local function FireDue()
     local t = os.clock()
     for i = #Queue, 1, -1 do
@@ -618,7 +489,6 @@ while true do
         for i = #Releases, 1, -1 do
             if t >= Releases[i].at then
                 pcall(function() keyrelease(Releases[i].vk) end)
-                KeyDown[Releases[i].vk] = nil
                 table.remove(Releases, i)
             end
         end
@@ -680,9 +550,14 @@ while true do
     else
         Queue, Active = {}, {}
     end
-    -- Animation Tracker
-    if TrackerActive then
+    -- Anim Tracker (Debug)
+    if UI.GetValue("sb_d_tracker") then
+        TrackerActive = true
         TrackerStep()
+    elseif TrackerActive then
+        TrackerActive = false
+        TrackerReset()
     end
+
     task.wait()
 end
