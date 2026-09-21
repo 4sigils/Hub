@@ -11,7 +11,7 @@ local PB_KEY   = 0x46 -- F
 
 -- Repo list of animation IDs to ignore (idle / walk / etc). Any digits on a
 -- non-comment line are treated as an ID, so ["123"] = true, or plain 123, both work.
-local IGNORE_URL = "https://raw.githubusercontent.com/4sigils/deep/refs/heads/main/ignoredanims.lua"
+local IGNORE_URL = "https://raw.githubusercontent.com/4sigils/Hub/refs/heads/main/IgnoredAnimations.lua"
 
 -- Anim Tracker
 local TRACKER_PATH = "Living/sigiltatted"
