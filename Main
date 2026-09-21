@@ -1,0 +1,23 @@
+local PlaceId = game.PlaceId
+
+local Games = {
+    Strikeborn = {
+        [80167904212435] = true,
+        [73682082940624] = true,
+    },
+
+    AnotherGame = {
+        [5555555555] = true,
+        [6666666666] = true,
+    },
+}
+
+if Games.Strikeborn[PlaceId] then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/4sigils/Hub/refs/heads/main/StrikebornAutoPB.lua"))()
+
+elseif Games.AnotherGame[PlaceId] then
+    loadstring(game:HttpGet("https://.../anothergame.lua"))()
+
+else
+    warn("Unsupported PlaceId:", PlaceId)
+end
