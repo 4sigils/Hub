@@ -83,7 +83,7 @@ return {
 
     ["rbxassetid://18627008095"] =  { name = "1 Blue",  range = 20, pbs = {0.4} },
     ["rbxassetid://18627015628"] = { name = "1 Green",   range = 20, pbs = {0.4} },
-    ["rbxassetid://18627012153"] = { name = "1 Red",   range = 20, pbs = {0.4} },
+    ["rbxassetid://18627012153"] = { name = "1 Red",   range = 20, pbs = {0.55} },
     --["rbxassetid://18761322153"] = { name = "2",   range = 20, pbs = {0.4} },
     ["rbxassetid://18628770235"] = { name = "3",   range = 15, pbs = {0.4} },
     ["rbxassetid://18711309540"] = { name = "4",   range = 20, pbs = {0.4} },
