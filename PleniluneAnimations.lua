@@ -87,4 +87,18 @@ return {
     --["rbxassetid://18761322153"] = { name = "2",   range = 20, pbs = {0.4} },
     ["rbxassetid://18628770235"] = { name = "3",   range = 15, pbs = {0.4} },
     --["rbxassetid://18711309540"] = { name = "4",   range = 20, pbs = {0.55} },
+
+    -- // Unchained \\ --
+    ["rbxassetid://110972446049465"] =  { name = "M1",   range = 15, pbs = {0.4} },
+    ["rbxassetid://127508624041046"] = { name = "M2",   range = 15, pbs = {0.4} },
+    ["rbxassetid://71130961937362"] = { name = "M3",   range = 15, pbs = {0.4} },
+    ["rbxassetid://92550913732784"] = { name = "M4",   range = 15, pbs = {0.4} },
+    ["rbxassetid://96255099774786"] = { name = "Critical",   range = 15, pbs = {0.55} },
+    ["rbxassetid://79977678386966"] = { name = "Aerial",   range = 20, pbs = {0.4} },
+    ["rbxassetid://18777237155"] = { name = "Chain Pull",   range = 15, pbs = {0.55} },
+
+    ["rbxassetid://18758324413"] =  { name = "1",   range = 20, pbs = {0.65} },
+    ["rbxassetid://105250400900265"] = { name = "2",   range = 20, pbs = {0.4} },
+    ["rbxassetid://18777324350"] = { name = "3",   range = 20, pbs = {0.4} },
+    ["rbxassetid://76544691350588"] = { name = "4",   range = 20, pbs = {0.4} },
 }
