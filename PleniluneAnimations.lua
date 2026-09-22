@@ -10,6 +10,6 @@ return {
     
     ["rbxassetid://18563941837"] =  { name = "1",   range = 20, pbs = {0.45} },
     --["rbxassetid://18568979941"] = { name = "2",   range = 20, pbs = {0.5} },
-    ["rbxassetid://18670018533"] = { name = "3",   range = 20, pbs = {0.45} },
+    ["rbxassetid://18670018533"] = { name = "3",   range = 30, pbs = {0.45} },
     --["rbxassetid://18585088692"] = { name = "4",   range = 20, pbs = {0.45} },
 }
