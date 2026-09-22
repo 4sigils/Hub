@@ -24,7 +24,7 @@ return {
     ["rbxassetid://18563941837"] =  { name = "1",   range = 20, pbs = {0.45} },
     --["rbxassetid://18568979941"] = { name = "2",   range = 20, pbs = {0.5} },
     ["rbxassetid://18670018533"] = { name = "3",   range = 30, pbs = {0.45} },
-    --["rbxassetid://18585088692"] = { name = "4",   range = 20, pbs = {0.45} },
+    --["rbxassetid://18585088692"] = { name = "4",   range = 20, pbs = {0.45} },    
 
     -- // Elphael \\ --
     -- Fist
@@ -35,9 +35,26 @@ return {
     ["rbxassetid://74767361010589"] = { name = "Critical",   range = 20, pbs = {0.55} },
     ["rbxassetid://79977678386966"] = { name = "Aerial",   range = 20, pbs = {0.4} },
     ["rbxassetid://18563936434"] = { name = "4",   range = 15, pbs = {0.4} },
-    
-    ["rbxassetid://1"] =  { name = "1",   range = 20, pbs = {0.4} },
-    ["rbxassetid://1"] = { name = "2",   range = 20, pbs = {0.4} },
-    ["rbxassetid://1"] = { name = "3",   range = 20, pbs = {0.4} },
-    ["rbxassetid://1"] = { name = "4",   range = 20, pbs = {0.4} },
+    -- Sword
+    ["rbxassetid://107014357858566"] =  { name = "M1",   range = 20, pbs = {0.4} },
+    ["rbxassetid://18563940536"] = { name = "M2",   range = 20, pbs = {0.4} },
+    ["rbxassetid://18563940275"] = { name = "M3",   range = 20, pbs = {0.4} },
+    ["rbxassetid://18563940162"] = { name = "M4",   range = 20, pbs = {0.4} },
+    ["rbxassetid://84458997532109"] = { name = "Critical",   range = 20, pbs = {0.55} },
+    ["rbxassetid://86171695492804"] = { name = "Aerial",   range = 20, pbs = {0.4} },
+    -- Hammer
+    ["rbxassetid://82739343026581"] =  { name = "M1",   range = 20, pbs = {0.4} },
+    ["rbxassetid://97122702228559"] = { name = "M2",   range = 20, pbs = {0.4} },
+    ["rbxassetid://71692555023472"] = { name = "M3",   range = 20, pbs = {0.4} },
+    ["rbxassetid://136669273317451"] = { name = "M4",   range = 20, pbs = {0.4} },
+    ["rbxassetid://107441091079245"] = { name = "Critical",   range = 20, pbs = {0.55} },
+    ["rbxassetid://98687009227159"] = { name = "Aerial",   range = 20, pbs = {0.4} },
+    ["rbxassetid://138667758143156"] = { name = "2",   range = 20, pbs = {0.4} },
+    -- Spear
+    ["rbxassetid://115794610712921"] =  { name = "M1",   range = 20, pbs = {0.4} },
+    ["rbxassetid://134488256780509"] = { name = "M2",   range = 20, pbs = {0.4} },
+    ["rbxassetid://110574100790777"] = { name = "M3",   range = 20, pbs = {0.4} },
+    ["rbxassetid://132062438165858"] = { name = "M4",   range = 20, pbs = {0.4} },
+    ["rbxassetid://104391538065433"] = { name = "Critical",   range = 20, pbs = {0.55} },
+    ["rbxassetid://86171695492804"] = { name = "Aerial",   range = 20, pbs = {0.4} },
 }
