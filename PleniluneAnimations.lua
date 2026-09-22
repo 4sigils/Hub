@@ -137,8 +137,8 @@ return {
     ["rbxassetid://127466625503339"] = { name = "Aerial",   range = 20, pbs = {0.4} },
 
     ["rbxassetid://104514576013504"] =  { name = "1",   range = 20, pbs = {0.4} },
-    ["rbxassetid://129100139874893"] = { name = "2",   range = 20, pbs = {0.4} },
-    ["rbxassetid://104233515920495"] = { name = "3",   range = 20, pbs = {0.4} },
+    ["rbxassetid://129100139874893"] = { name = "2",   range = 20, pbs = {0.1} },
+    ["rbxassetid://104233515920495"] = { name = "3",   range = 20, pbs = {0.55} },
     ["rbxassetid://103125055657291"] = { name = "4",   range = 20, pbs = {0.4} },
 
     -- // Petrichor \\ --
