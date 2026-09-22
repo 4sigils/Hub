@@ -140,15 +140,6 @@ return {
     ["rbxassetid://129100139874893"] = { name = "2",   range = 20, pbs = {0.1} },
     ["rbxassetid://104233515920495"] = { name = "3",   range = 20, pbs = {0.55} },
     ["rbxassetid://103125055657291"] = { name = "4",   range = 20, pbs = {0.4} },
-[01:28:51] : [Plenilune] [Characters/sigiltatted] 126772486606171
-[01:28:53] : [Plenilune] [Characters/sigiltatted] 97289008289269
-[01:28:54] : [Plenilune] [Characters/sigiltatted] 92633140898032
-[01:28:55] : [Plenilune] [Characters/sigiltatted] 88166998565087
-[01:28:58] : [Plenilune] [Characters/sigiltatted] 74130836414779
-[01:29:00] : [Plenilune] [Characters/sigiltatted] 74608293784105
-[01:29:01] : [Plenilune] [Characters/sigiltatted] 127835107067662
-[01:29:01] : [Plenilune] [Characters/sigiltatted] 129321361535219
-[01:29:09] : [Plenilune] [Characters/sigiltatted] 74130836414779
 
     -- // Petrichor \\ --
     ["rbxassetid://74326168237390"] =  { name = "M1",   range = 20, pbs = {0.4} },
@@ -162,9 +153,9 @@ return {
     ["rbxassetid://128065645608209"] = { name = "Critical Wind",   range = 20, pbs = {0.55} },
     ["rbxassetid://75385065590468"] = { name = "Aerial",   range = 20, pbs = {0.4} },
 
-    ["rbxassetid://126772486606171"] =  { name = "1",   range = 20, pbs = {0.4} },
+    ["rbxassetid://126772486606171"] =  { name = "1",   range = 20, pbs = {0.5} },
     ["rbxassetid://97289008289269"] = { name = "2",   range = 20, pbs = {0.4} },
-    ["rbxassetid://88166998565087"] = { name = "3",   range = 20, pbs = {0.4} },
+    ["rbxassetid://88166998565087"] = { name = "3",   range = 20, pbs = {0.6} },
     ["rbxassetid://92633140898032"] = { name = "4",   range = 20, pbs = {0.45} },
 
     -- // Reaver \\ --
