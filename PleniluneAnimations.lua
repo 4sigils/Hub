@@ -150,7 +150,7 @@ return {
     ["rbxassetid://112480396848069"] = { name = "Critical Flame",   range = 20, pbs = {0.55} },
     ["rbxassetid://133273100474623"] = { name = "Critical Lightning",   range = 20, pbs = {0.55} },
     ["rbxassetid://89518379740835"] = { name = "Critical Water",   range = 20, pbs = {0.55} },
-    ["rbxassetid://128065645608209"] = { name = "Critical Wind",   range = 20, pbs = {0.55} },
+    ["rbxassetid://128065645608209"] = { name = "Critical Wind",   range = 20, pbs = {0.4} },
     ["rbxassetid://75385065590468"] = { name = "Aerial",   range = 20, pbs = {0.4} },
 
     ["rbxassetid://126772486606171"] =  { name = "1",   range = 20, pbs = {0.5} },
