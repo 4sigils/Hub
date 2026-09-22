@@ -101,4 +101,121 @@ return {
     ["rbxassetid://105250400900265"] = { name = "2",   range = 20, pbs = {0.55} },
     ["rbxassetid://18777324350"] = { name = "3",   range = 20, pbs = {0.4} },
     ["rbxassetid://76544691350588"] = { name = "4",   range = 20, pbs = {0.4} },
+
+    -- // Swordswayer \\ --
+    ["rbxassetid://1"] =  { name = "M1",   range = 20, pbs = {0.4} },
+    ["rbxassetid://1"] = { name = "M2",   range = 20, pbs = {0.4} },
+    ["rbxassetid://1"] = { name = "M3",   range = 20, pbs = {0.4} },
+    ["rbxassetid://1"] = { name = "M4",   range = 20, pbs = {0.4} },
+    ["rbxassetid://1"] = { name = "Critical",   range = 20, pbs = {0.55} },
+    ["rbxassetid://1"] = { name = "Aerial",   range = 20, pbs = {0.4} },
+
+    ["rbxassetid://1"] =  { name = "1",   range = 20, pbs = {0.4} },
+    ["rbxassetid://1"] = { name = "2",   range = 20, pbs = {0.4} },
+    ["rbxassetid://1"] = { name = "3",   range = 20, pbs = {0.4} },
+    ["rbxassetid://1"] = { name = "4",   range = 20, pbs = {0.4} },
+
+    -- // Contract \\ --
+    ["rbxassetid://1"] =  { name = "M1",   range = 20, pbs = {0.4} },
+    ["rbxassetid://1"] = { name = "M2",   range = 20, pbs = {0.4} },
+    ["rbxassetid://1"] = { name = "M3",   range = 20, pbs = {0.4} },
+    ["rbxassetid://1"] = { name = "M4",   range = 20, pbs = {0.4} },
+    ["rbxassetid://1"] = { name = "Critical",   range = 20, pbs = {0.55} },
+    ["rbxassetid://1"] = { name = "Aerial",   range = 20, pbs = {0.4} },
+
+    ["rbxassetid://1"] =  { name = "1",   range = 20, pbs = {0.4} },
+    ["rbxassetid://1"] = { name = "2",   range = 20, pbs = {0.4} },
+    ["rbxassetid://1"] = { name = "3",   range = 20, pbs = {0.4} },
+    ["rbxassetid://1"] = { name = "4",   range = 20, pbs = {0.4} },
+
+    -- // Vronti \\ --
+    ["rbxassetid://90262337069183"] =  { name = "M1",   range = 20, pbs = {0.4} },
+    ["rbxassetid://139528053735122"] = { name = "M2",   range = 20, pbs = {0.4} },
+    ["rbxassetid://125248136037832"] = { name = "M3",   range = 20, pbs = {0.4} },
+    ["rbxassetid://74048037409848"] = { name = "M4",   range = 20, pbs = {0.4} },
+    ["rbxassetid://126988334291179"] = { name = "Critical",   range = 20, pbs = {0.55} },
+    ["rbxassetid://127466625503339"] = { name = "Aerial",   range = 20, pbs = {0.4} },
+
+    ["rbxassetid://104514576013504"] =  { name = "1",   range = 20, pbs = {0.4} },
+    ["rbxassetid://129100139874893"] = { name = "2",   range = 20, pbs = {0.4} },
+    ["rbxassetid://104233515920495"] = { name = "3",   range = 20, pbs = {0.4} },
+    ["rbxassetid://103125055657291"] = { name = "4",   range = 20, pbs = {0.4} },
+
+    -- // Petrichor \\ --
+    ["rbxassetid://1"] =  { name = "M1",   range = 20, pbs = {0.4} },
+    ["rbxassetid://1"] = { name = "M2",   range = 20, pbs = {0.4} },
+    ["rbxassetid://1"] = { name = "M3",   range = 20, pbs = {0.4} },
+    ["rbxassetid://1"] = { name = "M4",   range = 20, pbs = {0.4} },
+    ["rbxassetid://1"] = { name = "Critical",   range = 20, pbs = {0.55} },
+    ["rbxassetid://1"] = { name = "Aerial",   range = 20, pbs = {0.4} },
+
+    ["rbxassetid://1"] =  { name = "1",   range = 20, pbs = {0.4} },
+    ["rbxassetid://1"] = { name = "2",   range = 20, pbs = {0.4} },
+    ["rbxassetid://1"] = { name = "3",   range = 20, pbs = {0.4} },
+    ["rbxassetid://1"] = { name = "4",   range = 20, pbs = {0.4} },
+
+    -- // Reaver \\ --
+    ["rbxassetid://1"] =  { name = "M1",   range = 20, pbs = {0.4} },
+    ["rbxassetid://1"] = { name = "M2",   range = 20, pbs = {0.4} },
+    ["rbxassetid://1"] = { name = "M3",   range = 20, pbs = {0.4} },
+    ["rbxassetid://1"] = { name = "M4",   range = 20, pbs = {0.4} },
+    ["rbxassetid://1"] = { name = "Critical",   range = 20, pbs = {0.55} },
+    ["rbxassetid://1"] = { name = "Aerial",   range = 20, pbs = {0.4} },
+
+    ["rbxassetid://1"] =  { name = "1",   range = 20, pbs = {0.4} },
+    ["rbxassetid://1"] = { name = "2",   range = 20, pbs = {0.4} },
+    ["rbxassetid://1"] = { name = "3",   range = 20, pbs = {0.4} },
+    ["rbxassetid://1"] = { name = "4",   range = 20, pbs = {0.4} },
+
+    -- // Seishin \\ --
+    ["rbxassetid://1"] =  { name = "M1",   range = 20, pbs = {0.4} },
+    ["rbxassetid://1"] = { name = "M2",   range = 20, pbs = {0.4} },
+    ["rbxassetid://1"] = { name = "M3",   range = 20, pbs = {0.4} },
+    ["rbxassetid://1"] = { name = "M4",   range = 20, pbs = {0.4} },
+    ["rbxassetid://1"] = { name = "Critical",   range = 20, pbs = {0.55} },
+    ["rbxassetid://1"] = { name = "Aerial",   range = 20, pbs = {0.4} },
+
+    ["rbxassetid://1"] =  { name = "1",   range = 20, pbs = {0.4} },
+    ["rbxassetid://1"] = { name = "2",   range = 20, pbs = {0.4} },
+    ["rbxassetid://1"] = { name = "3",   range = 20, pbs = {0.4} },
+    ["rbxassetid://1"] = { name = "4",   range = 20, pbs = {0.4} },
+
+    -- // Ignition \\ --
+    ["rbxassetid://1"] =  { name = "M1",   range = 20, pbs = {0.4} },
+    ["rbxassetid://1"] = { name = "M2",   range = 20, pbs = {0.4} },
+    ["rbxassetid://1"] = { name = "M3",   range = 20, pbs = {0.4} },
+    ["rbxassetid://1"] = { name = "M4",   range = 20, pbs = {0.4} },
+    ["rbxassetid://1"] = { name = "Critical",   range = 20, pbs = {0.55} },
+    ["rbxassetid://1"] = { name = "Aerial",   range = 20, pbs = {0.4} },
+
+    ["rbxassetid://1"] =  { name = "1",   range = 20, pbs = {0.4} },
+    ["rbxassetid://1"] = { name = "2",   range = 20, pbs = {0.4} },
+    ["rbxassetid://1"] = { name = "3",   range = 20, pbs = {0.4} },
+    ["rbxassetid://1"] = { name = "4",   range = 20, pbs = {0.4} },
+
+    -- // Umbra \\ --
+    ["rbxassetid://1"] =  { name = "M1",   range = 20, pbs = {0.4} },
+    ["rbxassetid://1"] = { name = "M2",   range = 20, pbs = {0.4} },
+    ["rbxassetid://1"] = { name = "M3",   range = 20, pbs = {0.4} },
+    ["rbxassetid://1"] = { name = "M4",   range = 20, pbs = {0.4} },
+    ["rbxassetid://1"] = { name = "Critical",   range = 20, pbs = {0.55} },
+    ["rbxassetid://1"] = { name = "Aerial",   range = 20, pbs = {0.4} },
+
+    ["rbxassetid://1"] =  { name = "1",   range = 20, pbs = {0.4} },
+    ["rbxassetid://1"] = { name = "2",   range = 20, pbs = {0.4} },
+    ["rbxassetid://1"] = { name = "3",   range = 20, pbs = {0.4} },
+    ["rbxassetid://1"] = { name = "4",   range = 20, pbs = {0.4} },
+
+    -- // Virtue \\ --
+    ["rbxassetid://1"] =  { name = "M1",   range = 20, pbs = {0.4} },
+    ["rbxassetid://1"] = { name = "M2",   range = 20, pbs = {0.4} },
+    ["rbxassetid://1"] = { name = "M3",   range = 20, pbs = {0.4} },
+    ["rbxassetid://1"] = { name = "M4",   range = 20, pbs = {0.4} },
+    ["rbxassetid://1"] = { name = "Critical",   range = 20, pbs = {0.55} },
+    ["rbxassetid://1"] = { name = "Aerial",   range = 20, pbs = {0.4} },
+
+    ["rbxassetid://1"] =  { name = "1",   range = 20, pbs = {0.4} },
+    ["rbxassetid://1"] = { name = "2",   range = 20, pbs = {0.4} },
+    ["rbxassetid://1"] = { name = "3",   range = 20, pbs = {0.4} },
+    ["rbxassetid://1"] = { name = "4",   range = 20, pbs = {0.4} },
 }
