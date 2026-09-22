@@ -195,7 +195,7 @@ return {
     ["rbxassetid://100135259276938"] = { name = "Vent",   range = 20, pbs = {0.3} },
 
     ["rbxassetid://97161711361993"] =  { name = "1",   range = 20, pbs = {0.4} },
-    ["rbxassetid://83260870609388"] = { name = "2",   range = 20, pbs = {0.55} },
+    ["rbxassetid://83260870609388"] = { name = "2",   range = 20, pbs = {0.65} },
     ["rbxassetid://88267880425544"] = { name = "3",   range = 20, pbs = {0.4} },
     ["rbxassetid://95118969773886"] = { name = "4",   range = 20, pbs = {0.4} },
 
