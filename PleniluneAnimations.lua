@@ -59,17 +59,17 @@ return {
     ["rbxassetid://104391538065433"] = { name = "Critical",   range = 20, pbs = {0.55} },
     ["rbxassetid://86171695492804"] = { name = "Aerial",   range = 20, pbs = {0.4} },
 
-    -- // Elphael \\ --
+    -- // Reticence \\ --
     ["rbxassetid://110682784695428"] =  { name = "M1",   range = 20, pbs = {0.4} },
     ["rbxassetid://108533803218686"] = { name = "M2",   range = 20, pbs = {0.4} },
     ["rbxassetid://99638147117493"] = { name = "M3",   range = 20, pbs = {0.4} },
     ["rbxassetid://133729474614221"] = { name = "M4",   range = 20, pbs = {0.4} },
     ["rbxassetid://138685441617083"] = { name = "M5",   range = 20, pbs = {0.4} },
-    ["rbxassetid://94716469009947"] = { name = "Critical",   range = 20, pbs = {0.4} },
+    ["rbxassetid://94716469009947"] = { name = "Critical",   range = 20, pbs = {0.55} },
     ["rbxassetid://86171695492804"] = { name = "Aerial",   range = 20, pbs = {0.4} },
 
     ["rbxassetid://82823605380721"] =  { name = "1",   range = 20, pbs = {0.4} },
     ["rbxassetid://105782954427123"] = { name = "2",   range = 20, pbs = {0.4} },
     ["rbxassetid://18563938289"] = { name = "3",   range = 20, pbs = {0.4} },
-    ["rbxassetid://78403992110579"] = { name = "4",   range = 20, pbs = {0.4} },
+    ["rbxassetid://78403992110579"] = { name = "4",   range = 20, pbs = {0.35} },
 }
