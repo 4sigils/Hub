@@ -185,13 +185,13 @@ return {
     ["rbxassetid://1"] = { name = "4",   range = 20, pbs = {0.4} },
 
     -- // Ignition \\ --
-    ["rbxassetid://113209558144831"] =  { name = "M1",   range = 20, pbs = {0.4} },
-    ["rbxassetid://97269617331363"] = { name = "M2",   range = 20, pbs = {0.4} },
-    ["rbxassetid://93867450778666"] = { name = "M3",   range = 20, pbs = {0.4} },
-    ["rbxassetid://133409607443344"] = { name = "M4",   range = 20, pbs = {0.4} },
-    ["rbxassetid://133308679384127"] = { name = "M5",   range = 20, pbs = {0.4} },
-    ["rbxassetid://131992410380198"] = { name = "Critical",   range = 20, pbs = {0.55} },
-    ["rbxassetid://79977678386966"] = { name = "Aerial",   range = 20, pbs = {0.4} },
+    ["rbxassetid://113209558144831"] =  { name = "M1",   range = 15, pbs = {0.4} },
+    ["rbxassetid://97269617331363"] = { name = "M2",   range = 15, pbs = {0.4} },
+    ["rbxassetid://93867450778666"] = { name = "M3",   range = 15, pbs = {0.4} },
+    ["rbxassetid://133409607443344"] = { name = "M4",   range = 15, pbs = {0.4} },
+    ["rbxassetid://133308679384127"] = { name = "M5",   range = 15, pbs = {0.4} },
+    ["rbxassetid://131992410380198"] = { name = "Critical",   range = 15, pbs = {0.55} },
+    ["rbxassetid://79977678386966"] = { name = "Aerial",   range = 25, pbs = {0.4} },
     ["rbxassetid://100135259276938"] = { name = "Vent",   range = 20, pbs = {0.3} },
 
     ["rbxassetid://97161711361993"] =  { name = "1",   range = 20, pbs = {0.4} },
