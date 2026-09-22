@@ -60,7 +60,7 @@ return {
     ["rbxassetid://86171695492804"] = { name = "Aerial",   range = 20, pbs = {0.4} },
 
     -- // Reticence \\ --
-    ["rbxassetid://110682784695428"] =  { name = "M1",   range = 20, pbs = {0.4} },
+    ["rbxassetid://110682784695428"] =  { name = "M1",   range = 20, pbs = {0.375} },
     ["rbxassetid://108533803218686"] = { name = "M2",   range = 20, pbs = {0.4} },
     ["rbxassetid://99638147117493"] = { name = "M3",   range = 20, pbs = {0.4} },
     ["rbxassetid://133729474614221"] = { name = "M4",   range = 20, pbs = {0.4} },
@@ -72,4 +72,19 @@ return {
     ["rbxassetid://105782954427123"] = { name = "2",   range = 20, pbs = {0.4} },
     ["rbxassetid://18563938289"] = { name = "3",   range = 30, pbs = {0.4} },
     ["rbxassetid://78403992110579"] = { name = "4",   range = 20, pbs = {0.35} },
+
+        -- // Morpho \\ --
+    ["rbxassetid://18728827568"] =  { name = "M1",   range = 20, pbs = {0.4} },
+    ["rbxassetid://18728832556"] = { name = "M2",   range = 20, pbs = {0.4} },
+    ["rbxassetid://18728835788"] = { name = "M3",   range = 20, pbs = {0.4} },
+    ["rbxassetid://18728839002"] = { name = "M4",   range = 20, pbs = {0.4} },
+    ["rbxassetid://18625686281"] = { name = "Critical",   range = 20, pbs = {0.55} },
+    ["rbxassetid://105104469676686"] = { name = "Aerial",   range = 20, pbs = {0.4} },
+
+    ["rbxassetid://18627008095"] =  { name = "1 Blue",  range = 20, pbs = {0.4} },
+    ["rbxassetid://18627015628"] = { name = "1 Green",   range = 20, pbs = {0.4} },
+    ["rbxassetid://18627012153"] = { name = "1 Red",   range = 20, pbs = {0.4} },
+    --["rbxassetid://18761322153"] = { name = "2",   range = 20, pbs = {0.4} },
+    ["rbxassetid://18628770235"] = { name = "3",   range = 15, pbs = {0.4} },
+    ["rbxassetid://18711309540"] = { name = "4",   range = 20, pbs = {0.4} },
 }
