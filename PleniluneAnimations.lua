@@ -6,7 +6,8 @@ return {
     ["rbxassetid://106421464937565"] = { name = "M3",   range = 20, pbs = {0.4    } },
     ["rbxassetid://110220095647062"] = { name = "M4",   range = 20, pbs = {0.4} },
     ["rbxassetid://111904150533513"] = { name = "Critical",   range = 20, pbs = {0.55} },
-
+    ["rbxassetid://124690933077385"] = { name = "Aerial",   range = 20, pbs = {0.4} },
+    
     ["rbxassetid://18563941837"] =  { name = "1",   range = 20, pbs = {0.45} },
     ["rbxassetid://18568979941"] = { name = "2",   range = 20, pbs = {0.5} },
     ["rbxassetid://18670018533"] = { name = "3",   range = 20, pbs = {0.45} },
