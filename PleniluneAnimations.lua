@@ -48,7 +48,7 @@ return {
     ["rbxassetid://97122702228559"] = { name = "M2",   range = 20, pbs = {0.4} },
     ["rbxassetid://71692555023472"] = { name = "M3",   range = 20, pbs = {0.4} },
     ["rbxassetid://136669273317451"] = { name = "M4",   range = 20, pbs = {0.4} },
-    ["rbxassetid://107441091079245"] = { name = "Critical",   range = 20, pbs = {0.55} },
+    ["rbxassetid://107441091079245"] = { name = "Critical",   range = 20, pbs = {0.7} },
     ["rbxassetid://98687009227159"] = { name = "Aerial",   range = 20, pbs = {0.4} },
     ["rbxassetid://138667758143156"] = { name = "2",   range = 20, pbs = {0.55} },
     -- Spear
