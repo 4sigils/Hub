@@ -1,22 +1,11 @@
---========================================================
--- Plenilune | Auto PB
--- Sections: Auto PB + Timing | Range | Debug
---=====================================================
-
---------------------------------------------------------
--- CONFIG
---------------------------------------------------------
-local DATA_URL = "https://raw.githubusercontent.com/4sigils/Hub/refs/heads/main/PleniluneAnimations.lua"
-local PB_KEY   = 0x46 -- F
+local PARRY_KEY = 0x46 -- F
 
 local IGNORE_URL = "https://raw.githubusercontent.com/4sigils/Hub/refs/heads/main/IgnoredAnimations.lua"
+local DATA_URL = "https://raw.githubusercontent.com/4sigils/Hub/refs/heads/main/PleniluneAnimations.lua"
 
--- Anim Tracker
-local TRACKER_PATH = "Living/sigiltatted"
 
---------------------------------------------------------
--- OFFSETS / MEMORY HELPERS
---------------------------------------------------------
+local TRACKER_PATH = "Characters/sigiltatted"
+
 local offsets = game:GetService("HttpService"):JSONDecode(game:HttpGet("https://offsets.imtheo.lol/Offsets.json")).Offsets
 local KnownOffsets = {
     AnimationId      = offsets.Misc.AnimationId,
@@ -57,14 +46,12 @@ end
 --------------------------------------------------------
 
 -- Scan workspace.Characters. Only models whose name is also in game.Players
--- are treated as enemies (NPCs are ignored). Respects the PB Players toggle.
+-- are treated as enemies (NPCs are ignored).
 -- Returns { {model=, name=, isPlayer=true}, ... }
 local function GetEnemies()
     local list = {}
     local characters = workspace:FindFirstChild("Characters")
     if not characters then return list end
-
-    if not UI.GetValue("sb_pb_players") then return list end
 
     local lp = game.Players.LocalPlayer
     local myName = lp and lp.Name
@@ -81,13 +68,18 @@ local function GetEnemies()
     return list
 end
 
--- Distance (studs) from local player to an enemy.
-local function GetDistance(enemy)
+-- Distance (studs) from local player to a model.
+local function DistanceToModel(model)
     local lp   = game.Players.LocalPlayer
     local mine = lp and lp.Character and lp.Character:FindFirstChild("HumanoidRootPart")
-    local theirs = enemy.model:FindFirstChild("HumanoidRootPart")
+    local theirs = model and model:FindFirstChild("HumanoidRootPart")
     if not mine or not theirs then return math.huge end
     return (mine.Position - theirs.Position).Magnitude
+end
+
+-- Distance (studs) from local player to an enemy.
+local function GetDistance(enemy)
+    return DistanceToModel(enemy.model)
 end
 
 -- Animations currently playing on an enemy as:
@@ -153,6 +145,39 @@ local function GetPlayingAnims(enemy)
     return out
 end
 
+-- Fresh, single-track recheck done right at press time (not reused from
+-- this frame's earlier batch scan) so there's no staleness gap between
+-- "animation looked alive when we scanned" and "animation is alive right
+-- now, the instant we're about to press".
+local function IsAnimAlive(model, id)
+    if not model or not id then return false end
+    for _, anim in ipairs(GetPlayingAnims({model = model})) do
+        if anim.id == id then return true end
+    end
+    return false
+end
+
+-- Sound-based feint detection: looks for a Sound instance named
+-- FEINT_SOUND_NAME under an enemy's HumanoidRootPart, e.g.
+-- workspace.Characters.<EnemyName>.HumanoidRootPart.Feint
+--
+-- Not cached: the sound is only added for the moment of the feint itself,
+-- so a model checked before that (which is almost always the first check)
+-- would otherwise get permanently cached as "no sound" and never detect
+-- one added later. Only checked within Feint Sound Range to keep the
+-- lookup cheap despite not caching.
+local FEINT_SOUND_NAME = "Feint"
+
+local function IsFeintSoundPlaying(model)
+    if not model then return false end
+
+    local range = UI.GetValue("sb_parry_feint_range") or 15
+    if DistanceToModel(model) > range then return false end
+
+    local hrp = model:FindFirstChild("HumanoidRootPart")
+    return hrp ~= nil and hrp:FindFirstChild(FEINT_SOUND_NAME) ~= nil
+end
+
 -- Press a key without blocking. The release is handled by the main loop.
 local Releases = {}
 local function PressKey(vk, holdSeconds)
@@ -192,7 +217,7 @@ end
 --------------------------------------------------------
 local AnimDB      = {}   -- [id] = {name=, range=, pbs={...}}
 local Active      = {}   -- [enemyKey .. id] = start time of that animation
-local Queue       = {}   -- scheduled PB presses {at=, hold=}
+local Queue       = {}   -- scheduled parry presses {at=, hold=}
 local SeenUnknown = {}
 local Status      = {loaded = 0, ignored = 0, tracked = 0, last = "none", lastDist = 0, loopMs = 0, scanMs = 0}
 
@@ -379,21 +404,28 @@ end
 UI.AddTab("Plenilune", function(tab)
 
     ------------------------------------------------
-    -- Auto PB + Timing
+    -- Auto Parry + Timing
     ------------------------------------------------
-    local pb = tab:Section("Auto PB + Timing", "Left", {"Main", "Timing"})
+    local pb = tab:Section("Auto Parry + Timing", "Left", {"Main", "Timing"})
 
     if pb.page == 0 then
-        pb:Toggle("sb_pb_on", "Enabled")
-        pb:Toggle("sb_pb_players", "PB Players", true)
-        pb:SliderInt("sb_pb_chance", "PB Chance", 1, 100, 100)
+        pb:Toggle("sb_parry_on", "Enabled")
+        pb:SliderInt("sb_parry_chance", "Parry Chance", 1, 100, 100)
+        pb:SliderInt("sb_parry_feint_chance", "Parry Feint Chance", 0, 100, 0)
+        pb:Tip("Chance to still parry when a swing gets canceled early (a feint)")
+        pb:SliderInt("sb_parry_feint_grace", "Feint Grace (ms)", 0, 300, 100)
+        pb:Tip("How long after the normal parry moment to keep watching for a late feint before committing")
+        pb:Toggle("sb_parry_feint_sound", "Detect Feints via Sound", false)
+        pb:Tip("Off: rechecks if the animation is still playing. On: checks nearby enemies for the " .. FEINT_SOUND_NAME .. " sound instead")
+        pb:SliderInt("sb_parry_feint_range", "Feint Sound Range", 0, 100, 15)
+        pb:Tip("Only checked for enemies within this many studs (Sound mode only)")
 
     elseif pb.page == 1 then
         pb:SliderInt("sb_t_delay", "Reaction Delay (ms)", 0, 400, 0)
         pb:SliderInt("sb_t_jitter", "Random Jitter (ms)", 0, 150, 0)
         pb:SliderInt("sb_t_hold", "Key Hold (ms)", 10, 300, 50)
         pb:SliderInt("sb_t_ping", "Ping Comp (ms)", 0, 300, 0)
-        pb:Tip("Fires PBs this much earlier")
+        pb:Tip("Fires parries this much earlier")
     end
 
     ------------------------------------------------
@@ -412,7 +444,7 @@ UI.AddTab("Plenilune", function(tab)
     dbg:Toggle("sb_d_anims", "Log Animations")
     dbg:Toggle("sb_d_unknown", "Log Unknown Only", true)
     dbg:Tip("Prints IDs that are not in the repo, once each")
-    dbg:Toggle("sb_d_fires", "Log PB Fires")
+    dbg:Toggle("sb_d_parries", "Log Parries")
     dbg:Toggle("sb_d_tracker", "Anim Tracker")
     dbg:Tip("Prints new anims + damage timing for " .. TRACKER_PATH)
     dbg:Spacing()
@@ -439,7 +471,7 @@ local function GetRange(info)
     return info.range or 15
 end
 
-local function Schedule(startTime, info)
+local function Schedule(startTime, info, akey, model, id)
     local delay  = UI.GetValue("sb_t_delay") or 0
     local jitter = UI.GetValue("sb_t_jitter") or 0
     local ping   = UI.GetValue("sb_t_ping") or 0
@@ -450,15 +482,20 @@ local function Schedule(startTime, info)
         t = tonumber(t) or 0
 	local ms = delay + math.random(0, jitter) - ping
         local at = startTime + t + (ms / 1000)
+        local grace = (UI.GetValue("sb_parry_feint_grace") or 0) / 1000
 
         Queue[#Queue + 1] = {
-            at = at,
-            hold = hold
+            at         = at,
+            hold       = hold,
+            owner      = akey,
+            model      = model,
+            id         = id,
+            graceUntil = at + grace,
         }
 
-        if UI.GetValue("sb_d_fires") then
+        if UI.GetValue("sb_d_parries") then
             Log(string.format(
-                "Scheduled pb @ %.3fs, fires in %.3fs",
+                "Scheduled parry @ %.3fs, fires in %.3fs",
                 t,
                 at - os.clock()
             ))
@@ -466,14 +503,45 @@ local function Schedule(startTime, info)
     end
 end
 
+-- A due press is checked live, right here, instead of trusting older scan
+-- data: Animation mode re-scans just that one enemy's tracks for the exact
+-- id we scheduled off of; Sound mode checks nearby enemies for their Feint
+-- sound. A feint result rolls Parry Feint Chance immediately. If it's not
+-- (yet) a feint, the press is held open until Feint Grace expires, so a
+-- feint that happens a little late still gets caught before we commit.
 local function FireDue()
     local t = os.clock()
+    local useSound = UI.GetValue("sb_parry_feint_sound")
+
     for i = #Queue, 1, -1 do
         local q = Queue[i]
         if t >= q.at then
-            PressKey(PB_KEY, q.hold)
-            if UI.GetValue("sb_d_fires") then Log("PB fired") end
-            table.remove(Queue, i)
+            local feinted
+            if useSound then
+                feinted = IsFeintSoundPlaying(q.model)
+            else
+                feinted = not IsAnimAlive(q.model, q.id)
+            end
+
+            if feinted then
+                local fallForIt = math.random(1, 100) <= (UI.GetValue("sb_parry_feint_chance") or 0)
+                if fallForIt then
+                    PressKey(PARRY_KEY, q.hold)
+                    if UI.GetValue("sb_d_parries") then Log("Feint detected, fell for it anyway: " .. tostring(q.owner)) end
+                elseif UI.GetValue("sb_d_parries") then
+                    Log("Feint detected, canceled parry: " .. tostring(q.owner))
+                end
+                table.remove(Queue, i)
+
+            elseif t < q.graceUntil then
+                -- still within the grace window - keep watching, don't
+                -- fire and don't remove yet
+            else
+                -- grace expired with no feint seen the whole time - real hit
+                PressKey(PARRY_KEY, q.hold)
+                if UI.GetValue("sb_d_parries") then Log("Parry fired") end
+                table.remove(Queue, i)
+            end
         end
     end
 end
@@ -499,10 +567,7 @@ while true do
         end
     end
 
-    -- fire any queued PBs that are due (before the scan so scan time doesn't delay them)
-    if UI.GetValue("sb_pb_on") then FireDue() end
-
-    if UI.GetValue("sb_pb_on") then
+    if UI.GetValue("sb_parry_on") then
         local now = os.clock()
         local seenNow, tracked = {}, 0
         local scanStart = os.clock()
@@ -532,17 +597,16 @@ while true do
                         Status.last, Status.lastDist = info.name or id, dist
 
                         if dist <= GetRange(info)
-                           and math.random(1, 100) <= UI.GetValue("sb_pb_chance") then
+                           and math.random(1, 100) <= UI.GetValue("sb_parry_chance") then
                             local start = os.clock() - (anim.elapsed or 0)
                             Active[akey] = start
-                            Schedule(start, info)
+                            Schedule(start, info, akey, enemy.model, id)
                         else
                             Active[akey] = now -- mark so we don't re-roll every frame
                         end
                     end
                 end
             end
-            FireDue()
         end
 
         -- forget animations that stopped playing
@@ -552,6 +616,9 @@ while true do
         Status.tracked = tracked
         Status.scanMs = Status.scanMs * 0.8 + (os.clock() - scanStart) * 1000 * 0.2
 
+        -- Fire due presses now that this frame's scan is complete, so we
+        -- know exactly which animations are still actually playing.
+        FireDue()
     else
         Queue, Active = {}, {}
     end
