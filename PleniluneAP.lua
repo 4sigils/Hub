@@ -1,10 +1,22 @@
+--========================================================
+-- Plenilune | Auto PB
+-- Sections: Auto PB + Timing | Range | Debug
+--=====================================================
+
+--------------------------------------------------------
+-- CONFIG
+--------------------------------------------------------
+local DATA_URL = "https://raw.githubusercontent.com/4sigils/Hub/refs/heads/main/PleniluneAnimations.lua"
 local PB_KEY   = 0x46 -- F
 
 local IGNORE_URL = "https://raw.githubusercontent.com/4sigils/Hub/refs/heads/main/IgnoredAnimations.lua"
-local DATA_URL = "https://raw.githubusercontent.com/4sigils/deep/refs/heads/main/strikeanims.lua"
 
+-- Anim Tracker
 local TRACKER_PATH = "Living/sigiltatted"
 
+--------------------------------------------------------
+-- OFFSETS / MEMORY HELPERS
+--------------------------------------------------------
 local offsets = game:GetService("HttpService"):JSONDecode(game:HttpGet("https://offsets.imtheo.lol/Offsets.json")).Offsets
 local KnownOffsets = {
     AnimationId      = offsets.Misc.AnimationId,
@@ -428,18 +440,28 @@ local function GetRange(info)
 end
 
 local function Schedule(startTime, info)
-    local delay  = UI.GetValue("sb_t_delay")
-    local jitter = UI.GetValue("sb_t_jitter")
-    local ping   = UI.GetValue("sb_t_ping")
-    local hold   = UI.GetValue("sb_t_hold") / 1000
+    local delay  = UI.GetValue("sb_t_delay") or 0
+    local jitter = UI.GetValue("sb_t_jitter") or 0
+    local ping   = UI.GetValue("sb_t_ping") or 0
+    local hold   = (UI.GetValue("sb_t_hold") or 0) / 1000
     local pbs    = info.pbs or {0}
 
     for _, t in ipairs(pbs) do
-        local ms = delay + math.random(0, jitter) - ping
+        t = tonumber(t) or 0
+	local ms = delay + math.random(0, jitter) - ping
         local at = startTime + t + (ms / 1000)
-        Queue[#Queue + 1] = {at = at, hold = hold}
+
+        Queue[#Queue + 1] = {
+            at = at,
+            hold = hold
+        }
+
         if UI.GetValue("sb_d_fires") then
-            Log(string.format("Scheduled pb @ %.3fs, fires in %.3fs", t, at - os.clock()))
+            Log(string.format(
+                "Scheduled pb @ %.3fs, fires in %.3fs",
+                t,
+                at - os.clock()
+            ))
         end
     end
 end
